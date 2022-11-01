@@ -9,21 +9,13 @@ export default async function handler(req, res) {
 				userAgent: 'LoanReminderBot/1.0.1 (http://reddit.com/u/SirWhoaWaitWhat)'
 			});
 
-			const response = await snoo.submitSelfpost({
-				subredditName: process.env.REDDIT_SUBREDDIT,
-				title: req.body.subject?.substring(0, 250),
-				text: req.body.text,
-				sendReplies: false
-			});
+			const post = snoo.getSubmission(process.env.REDDIT_POST)
 
-			const commentResponse = await snoo.getSubmission(response.name).reply(`u/${req.body.to}`);
+			const commentBody = `u/${req.body.to}\n## ${req.body.subject}\n\n${req.body.text}`;
 
-			console.log('post', new Date(), req.body.to, response, commentResponse.permalink);
-			// console.log(new Date(), {
-			// 	to: req.body.to,
-			// 	subject: req.body.subject?.substring(0, 100),
-			// 	text: req.body.text
-			// })
+			const commentResponse = await post.reply(commentBody);
+
+			console.log('post', new Date(), req.body.to, post, commentResponse.permalink);
 
 			res.status(200).send('Selfpost Received and Send OK')
 		} catch (e) {
