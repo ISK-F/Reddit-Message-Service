@@ -11,9 +11,7 @@ export default async function handler(req, res) {
 
 			const post = snoo.getSubmission(process.env.REDDIT_POST)
 
-			const commentBody = `u/${req.body.to}\n## ${req.body.subject}\n\n${req.body.text}`;
-
-			const commentResponse = await post.reply(commentBody);
+			const commentResponse = await post.reply(req.body.text);
 
 			console.log('post', new Date(), req.body.to, post, commentResponse.permalink);
 
