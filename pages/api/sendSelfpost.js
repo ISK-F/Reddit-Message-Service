@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 				userAgent: 'LoanReminderBot/1.0.1 (http://reddit.com/u/SirWhoaWaitWhat)'
 			});
 
-			const post = snoo.getSubmission(process.env.REDDIT_POST)
+			const post = snoo.getSubmission(req.body.post)
 
 			const commentResponse = await post.reply(req.body.text);
 
