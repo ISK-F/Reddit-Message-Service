@@ -10,6 +10,8 @@ export default async function handler(req, res) {
 				userAgent: 'LoanReminderBot/1.0.1 (http://reddit.com/u/SirWhoaWaitWhat)'
 			});
 
+			snoo.config({continueAfterRatelimitError: true});
+
 			const response = await snoo.composeMessage({
 				to: req.body.to,
 				subject: req.body.subject?.substring(0, 100),
